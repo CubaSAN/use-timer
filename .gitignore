@@ -62,3 +62,6 @@ typings/
 
 # lib
 lib
+
+# IDE configs
+.idea

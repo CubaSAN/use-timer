@@ -1,5 +1,7 @@
+import * as workerTimers from "worker-timers";
 import { useCallback, useEffect, useState } from 'react';
 import { Config, ReturnValue } from './types';
+
 
 export const useTimer = ({
   initialTime = 0,
@@ -46,7 +48,7 @@ export const useTimer = ({
     let intervalId: NodeJS.Timeout | null = null;
 
     if (isRunning) {
-      intervalId = setInterval(() => {
+      intervalId = workerTimers.setInterval(() => {
         setTime(previousTime =>
           timerType === 'DECREMENTAL'
             ? previousTime - step
@@ -54,12 +56,12 @@ export const useTimer = ({
         );
       }, interval);
     } else if (intervalId) {
-      clearInterval(intervalId);
+      workerTimers.clearInterval(intervalId);
     }
 
     return () => {
       if (intervalId) {
-        clearInterval(intervalId);
+        workerTimers.clearInterval(intervalId);
       }
     };
   }, [isRunning, step, timerType, interval]);
